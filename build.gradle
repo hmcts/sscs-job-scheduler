@@ -173,8 +173,6 @@ def versions = [
 dependencies {
   compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
 
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
-
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: versions.reformLogging
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: versions.reformLogging
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.reformLogging
