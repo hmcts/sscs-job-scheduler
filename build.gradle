@@ -15,7 +15,7 @@ plugins {
 
 def buildNumber = System.getenv("RELEASE_VERSION")?.replace("refs/tags/", "") ?: "DEV-SNAPSHOT"
 
-group = 'uk.gov.hmcts.reform'
+group = 'com.github.hmcts'
 version = buildNumber
 
 sourceCompatibility = 11
@@ -99,9 +99,6 @@ dependencyCheck {
 repositories {
   mavenCentral()
   mavenLocal()
-  maven {
-    url "https://dl.bintray.com/hmcts/hmcts-maven"
-  }
   jcenter()
   mavenCentral()
 
@@ -109,9 +106,13 @@ repositories {
     url 'https://repo.spring.io/libs-milestone'
   }
 
-  // jitpack should be last resort
+  // jitpack was last resort but replaced bintray
   // see: https://github.com/jitpack/jitpack.io/issues/1939
   maven { url 'https://jitpack.io' }
+
+  maven {
+    url "https://dl.bintray.com/hmcts/hmcts-maven"
+  }
 }
 
 publishing {
