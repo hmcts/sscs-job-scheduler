@@ -1,15 +1,16 @@
 package uk.gov.hmcts.reform.sscs.jobscheduler;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import java.time.ZonedDateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.sscs.jobscheduler.model.Job;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.*;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapper;
@@ -26,7 +27,7 @@ import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapping;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobMapper;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobMapping;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringBootContextRoot.class)
 @ActiveProfiles("development")
 public class ApplicationTest {
@@ -61,7 +62,7 @@ public class ApplicationTest {
 
     TestPayload testPayload = new TestPayload();
 
-    @Before
+    @BeforeAll
     public void setUp() {
 
         jobService.start();

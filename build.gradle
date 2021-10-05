@@ -20,7 +20,7 @@ version = buildNumber
 sourceCompatibility = 11
 targetCompatibility = 11
 
-def springBootVersion = '2.3.5.RELEASE'
+def springBootVersion = '2.5.4'
 
 
 sourceSets {
@@ -163,12 +163,13 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: versions.springBoot
-  compile group: 'org.springframework', name: 'spring-context-support', version: '5.2.12.RELEASE'
+  compile group: 'org.springframework', name: 'spring-context-support', version: '5.3.9'
 
-  compile group: 'org.springframework', name: 'spring-tx', version: '5.2.12.RELEASE'
+  compile group: 'org.springframework', name: 'spring-tx', version: '5.3.9'
   compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version:'0.1.0'
 
-  testCompile group: 'junit', name: 'junit', version: 4.12
+  compile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+
   testCompile group: 'org.assertj', name: 'assertj-core', version: '3.18.1'
   testCompile group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: '2.27.2'
   testCompile group: 'org.json', name: 'json', version: '20201115'
