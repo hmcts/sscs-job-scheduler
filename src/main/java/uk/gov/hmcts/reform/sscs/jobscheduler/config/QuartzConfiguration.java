@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.JobFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +21,8 @@ import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.QuartzFailedJobResc
 @Configuration
 @ConfigurationProperties(prefix = "job.scheduler")
 public class QuartzConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(QuartzConfiguration.class);
 
     private final Map<String, String> quartzProperties = new HashMap<>();
 
@@ -65,6 +69,7 @@ public class QuartzConfiguration {
         );
 
         scheduler.getListenerManager().addJobListener(failedJobRescheduler);
+        log.info("Auto Start Value {}", autoStart);
 
         if (autoStart) {
             scheduler.start();
