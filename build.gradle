@@ -102,13 +102,13 @@ repositories {
   mavenCentral()
   mavenLocal()
 
-  maven {
-    url 'https://repo.spring.io/libs-milestone'
-  }
-
   // jitpack was last resort but replaced bintray
   // see: https://github.com/jitpack/jitpack.io/issues/1939
   maven { url 'https://jitpack.io' }
+
+  maven {
+    url 'https://repo.spring.io/libs-milestone'
+  }
 
 }
 
