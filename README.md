@@ -9,7 +9,7 @@ can call back to a specified handler next week Sunday at 2am.
 ## Getting started
 
 ### Prerequisites
-- [JDK 8](https://java.com)
+- [JDK 17](https://java.com)
 
 ## Developing
 
