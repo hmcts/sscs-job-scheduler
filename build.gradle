@@ -66,6 +66,8 @@ task integration(type: Test) {
   classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
+tasks.withType(Copy).configureEach { duplicatesStrategy DuplicatesStrategy.WARN }
+
 checkstyle {
   toolVersion = '8.4'
   // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
