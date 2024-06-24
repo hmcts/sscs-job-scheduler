@@ -23,7 +23,7 @@ java {
 }
 
 
-def springBootVersion = '2.4.0'
+def springBootVersion = '2.7.18'
 
 
 sourceSets {
