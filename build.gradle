@@ -38,12 +38,14 @@ sourceSets {
   }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+tasks.register('sourcesJar', Jar) {
+  dependsOn classes
   archiveClassifier = 'sources'
   from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+tasks.register('javadocJar', Jar) {
+  dependsOn javadoc
   archiveClassifier = 'javadoc'
   from javadoc.destinationDir
 }
@@ -60,7 +62,7 @@ compileIntegrationTestJava {
   options.compilerArgs << "-Xlint:unchecked"
 }
 
-task integration(type: Test) {
+tasks.register('integration', Test) {
   description = "Runs Integration Tests"
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
@@ -78,16 +80,19 @@ pmd {
   toolVersion = "6.55.0"
   ignoreFailures = true
   sourceSets = [sourceSets.main, sourceSets.test, sourceSets.integrationTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
+  reportsDir = file("$project.layout.buildDirectory/reports/pmd")
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
 
-project.tasks['sonarqube'].dependsOn test, integration
+project.tasks.named('sonarqube') {
+  dependsOn test, integration
+}
+
 sonarqube {
   properties {
     property "sonar.projectName", "Reform :: SSCS job scheduler"
-    property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-    property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/integration.exec"
+    property "sonar.jacoco.reportPath", "${project.layout.buildDirectory}/jacoco/test.exec"
+    property "sonar.jacoco.itReportPath", "${project.layout.buildDirectory}/jacoco/integration.exec"
     property 'sonar.coverage.exclusions', "**/src/main/java/uk/gov/hmcts/reform/sscs/jobscheduler/config/**"
   }
 }
@@ -133,7 +138,7 @@ def versions = [
   springBoot   : springBootVersion,
 ]
 
-configurations.all {
+configurations.configureEach {
   resolutionStrategy {
     eachDependency { DependencyResolveDetails details ->
       if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
