@@ -141,6 +141,7 @@ publishing {
   }
 }
 
+tasks.withType(Copy).configureEach { duplicatesStrategy DuplicatesStrategy.WARN }
 
 def versions = [
   reformLogging   : '5.1.7',
