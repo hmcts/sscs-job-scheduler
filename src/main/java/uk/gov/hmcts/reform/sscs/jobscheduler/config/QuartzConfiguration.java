@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.JobFactory;

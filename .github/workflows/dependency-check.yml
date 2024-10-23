@@ -1,4 +1,4 @@
-name: Java CI
+name: 'Dependency Check'
 
 on:
   pull_request:
@@ -8,12 +8,11 @@ on:
     branches:
       - master
       - refs/tags/*
-    tags:
-      - '*'
 
 jobs:
-  build:
+  depCheck:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -21,5 +20,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-      - name: Build
-        run: ./gradlew check
+      - name: Run dependencyCheck
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: ./gradlew dependencyCheckAggregate
