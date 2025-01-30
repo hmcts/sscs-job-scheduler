@@ -205,7 +205,7 @@ def versions = [
 ]
 
 dependencies {
-  implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.2'
+  implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.5.0'
 
   implementation group: 'com.github.hmcts', name: 'java-logging', version: '6.1.7'
   implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2', {
