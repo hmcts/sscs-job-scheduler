@@ -1,10 +1,10 @@
 package uk.gov.hmcts.reform.sscs.jobscheduler.config;
 
+import jakarta.inject.Singleton;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import jakarta.inject.Singleton;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.JobFactory;

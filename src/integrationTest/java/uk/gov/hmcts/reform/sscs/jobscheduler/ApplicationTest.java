@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.sscs.jobscheduler;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 import java.time.ZonedDateTime;
