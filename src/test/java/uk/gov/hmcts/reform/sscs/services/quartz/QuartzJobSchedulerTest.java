@@ -2,16 +2,13 @@ package uk.gov.hmcts.reform.sscs.services.quartz;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.time.ZonedDateTime;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
@@ -22,7 +19,6 @@ import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapper;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapping;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.QuartzJobScheduler;
 
-@RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings("unchecked")
 public class QuartzJobSchedulerTest {
 
@@ -65,14 +61,14 @@ public class QuartzJobSchedulerTest {
                 );
 
                 JobDetail actualJobDetail = jobDetailCaptor.getValue();
-                assertEquals(actualJobId, actualJobDetail.getKey().getName());
-                assertEquals(jobGroup, actualJobDetail.getKey().getGroup());
-                assertEquals(jobName, actualJobDetail.getDescription());
-                assertTrue(actualJobDetail.getJobDataMap().containsKey(JobDataKeys.PAYLOAD));
-                assertEquals("serialized-payload", actualJobDetail.getJobDataMap().get(JobDataKeys.PAYLOAD));
+                assertThat(actualJobId).isEqualTo(actualJobDetail.getKey().getName());
+                assertThat(jobGroup).isEqualTo(actualJobDetail.getKey().getGroup());
+                assertThat(jobName).isEqualTo(actualJobDetail.getDescription());
+                assertThat(actualJobDetail.getJobDataMap().containsKey(JobDataKeys.PAYLOAD)).isTrue();
+                assertThat("serialized-payload").isEqualTo(actualJobDetail.getJobDataMap().get(JobDataKeys.PAYLOAD));
 
                 Trigger actualTrigger = triggerCaptor.getValue();
-                assertEquals(actualTrigger.getStartTime().toInstant().toEpochMilli(), triggerAt.toInstant().toEpochMilli());
+                assertThat(actualTrigger.getStartTime().toInstant().toEpochMilli()).isEqualTo(triggerAt.toInstant().toEpochMilli());
             }
         ).doesNotThrowAnyException();
     }

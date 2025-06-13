@@ -1,12 +1,11 @@
 package uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import java.util.function.Predicate;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.JobExecutor;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.JobPayloadDeserializer;
 
@@ -18,7 +17,7 @@ public class JobMappingTest {
     private Predicate<String> jobCannotBeMapped;
     private String payloadSource;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         jobPayloadDeserializer = mock(JobPayloadDeserializer.class);
         jobExecutor = mock(JobExecutor.class);
@@ -33,7 +32,7 @@ public class JobMappingTest {
 
         boolean canHandle = jobMapping.canHandle(payloadSource);
 
-        assertThat(canHandle, is(true));
+        assertThat(canHandle).isTrue();
     }
 
     @Test
@@ -42,7 +41,7 @@ public class JobMappingTest {
 
         boolean canHandle = jobMapping.canHandle(payloadSource);
 
-        assertThat(canHandle, is(false));
+        assertThat(canHandle).isFalse();
     }
 
     @Test

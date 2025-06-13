@@ -2,25 +2,22 @@ package uk.gov.hmcts.reform.sscs.services.quartz;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.quartz.JobBuilder.newJob;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.*;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.QuartzFailedJobRescheduler;
-import wiremock.com.google.common.collect.Maps;
 
-@RunWith(MockitoJUnitRunner.class)
-public class QuartzFailedJobReschedulerTest {
+class QuartzFailedJobReschedulerTest {
 
     private static final int MAX_NUMBER_OF_ATTEMPTS = 5;
     private static final Duration DELAY_BETWEEN_ATTEMPTS = Duration.ofMillis(1000);
@@ -34,28 +31,28 @@ public class QuartzFailedJobReschedulerTest {
     );
 
     @Test
-    public void getName_does_not_throw_exception() {
+    void getName_does_not_throw_exception() {
         assertThatCode(
             () -> rescheduler.getName()
         ).doesNotThrowAnyException();
     }
 
     @Test
-    public void jobToBeExecuted_does_not_throw_exception() {
+    void jobToBeExecuted_does_not_throw_exception() {
         assertThatCode(
             () -> rescheduler.jobToBeExecuted(createContext())
         ).doesNotThrowAnyException();
     }
 
     @Test
-    public void jobExecutionVetoed_does_not_throw_exception() {
+    void jobExecutionVetoed_does_not_throw_exception() {
         assertThatCode(
             () -> rescheduler.jobExecutionVetoed(createContext())
         ).doesNotThrowAnyException();
     }
 
     @Test
-    public void jobWasExecuted_should_not_reschedule_successful_job() throws Exception {
+    void jobWasExecuted_should_not_reschedule_successful_job() throws Exception {
         Scheduler scheduler = mock(Scheduler.class);
         JobExecutionContext context = createContext(
             scheduler,
@@ -69,7 +66,7 @@ public class QuartzFailedJobReschedulerTest {
     }
 
     @Test
-    public void jobWasExecuted_should_reschedule_failed_job() throws Exception {
+    void jobWasExecuted_should_reschedule_failed_job() throws Exception {
         // given
         int lastAttempt = 2;
         JobDetail jobDetail = createJobDetail();
@@ -94,7 +91,7 @@ public class QuartzFailedJobReschedulerTest {
     }
 
     @Test
-    public void jobWasExecuted_should_not_reschedule_failed_job_too_many_times() throws Exception {
+    void jobWasExecuted_should_not_reschedule_failed_job_too_many_times() throws Exception {
         // given
         JobDetail jobDetail = createJobDetail();
         JobDataMap jobDataMap =

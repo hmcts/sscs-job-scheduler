@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -21,14 +19,13 @@ import uk.gov.hmcts.reform.sscs.jobscheduler.services.JobException;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.JobNotFoundException;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.QuartzJobRemover;
 
-@RunWith(MockitoJUnitRunner.class)
-public class QuartzJobRemoverTest {
+class QuartzJobRemoverTest {
 
     private final Scheduler scheduler = mock(Scheduler.class);
     private final QuartzJobRemover quartzJobRemover = new QuartzJobRemover(scheduler);
 
     @Test
-    public void job_is_removed_from_scheduler_by_id() {
+    void job_is_removed_from_scheduler_by_id() {
 
         assertThatCode(
             () -> {
@@ -49,7 +46,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void job_is_removed_from_scheduler_by_group() {
+    void job_is_removed_from_scheduler_by_group() {
 
         assertThatCode(
             () -> {
@@ -82,7 +79,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void remove_job_by_id_throws_when_job_not_found_by_id() {
+    void remove_job_by_id_throws_when_job_not_found_by_id() {
 
         assertThatThrownBy(
             () -> {
@@ -101,7 +98,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void remove_job_by_id_throws_when_group_has_no_jobs() {
+    void remove_job_by_id_throws_when_group_has_no_jobs() {
 
         assertThatThrownBy(
             () -> {
@@ -128,7 +125,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void remove_job_by_id_throws_when_group_has_jobs_that_cannot_be_found() {
+    void remove_job_by_id_throws_when_group_has_jobs_that_cannot_be_found() {
 
         assertThatThrownBy(
             () -> {
@@ -155,7 +152,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void remove_job_by_group_throws_when_quartz_fails() {
+    void remove_job_by_group_throws_when_quartz_fails() {
 
         assertThatThrownBy(
             () -> {
@@ -186,7 +183,7 @@ public class QuartzJobRemoverTest {
     }
 
     @Test
-    public void remove_job_by_id_throws_when_quartz_fails() {
+    void remove_job_by_id_throws_when_quartz_fails() {
 
         assertThatThrownBy(
             () -> {

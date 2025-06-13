@@ -1,24 +1,23 @@
 package uk.gov.hmcts.reform.sscs.jobscheduler;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 import java.time.ZonedDateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.sscs.jobscheduler.model.Job;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.*;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapper;
@@ -26,7 +25,7 @@ import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobClassMapping;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobMapper;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.JobMapping;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringBootContextRoot.class)
 @ActiveProfiles("development")
 public class ApplicationTest {
@@ -44,24 +43,24 @@ public class ApplicationTest {
     @Autowired
     private JobRemover jobRemover;
 
-    @MockBean
+    @MockitoBean
     private JobPayloadSerializer<TestPayload> jobPayloadSerializer;
 
-    @MockBean
+    @MockitoBean
     private JobPayloadDeserializer<TestPayload> jobPayloadDeserializer;
 
-    @MockBean
+    @MockitoBean
     private JobExecutor<TestPayload> jobExecutor;
 
-    @MockBean
+    @MockitoBean
     private JobClassMapper jobClassMapper;
 
-    @MockBean
+    @MockitoBean
     private JobMapper jobMapper;
 
     TestPayload testPayload = new TestPayload();
 
-    @Before
+    @BeforeEach
     public void setUp() {
 
         jobService.start();
@@ -82,7 +81,7 @@ public class ApplicationTest {
     @Test
     public void jobIsScheduledAndExecutesInTheFuture() {
 
-        assertTrue("Job scheduler is empty at start", getScheduledJobCount() == 0);
+        assertThat(getScheduledJobCount()).as("Job scheduler is empty at start").isEqualTo(0);
 
         String jobGroup = "test-job-group";
         String jobName = "test-job-name";
@@ -96,9 +95,9 @@ public class ApplicationTest {
 
         String jobId = jobScheduler.schedule(job);
 
-        assertNotNull(jobId);
+        assertThat(jobId).isNotNull();
 
-        assertTrue("Job was scheduled into Quartz", getScheduledJobCount() == 1);
+        assertThat(getScheduledJobCount()).as("Job was scheduled into Quartz").isEqualTo(1);
 
         // job is executed
         verify(jobExecutor, timeout(10000)).execute(
@@ -112,7 +111,7 @@ public class ApplicationTest {
     @Test
     public void jobIsScheduledAndThenRemovedByGroup() {
 
-        assertTrue("Job scheduler is empty at start", getScheduledJobCount() == 0);
+        assertThat(getScheduledJobCount()).as("Job scheduler is empty at start").isEqualTo(0);
 
         String jobGroup = "test-job-group";
         String jobName = "test-job-name";
@@ -126,7 +125,7 @@ public class ApplicationTest {
 
         String jobId1 = jobScheduler.schedule(job1);
 
-        assertNotNull(jobId1);
+        assertThat(jobId1).isNotNull();
 
         Job<TestPayload> job2 = new Job<>(
             jobGroup,
@@ -137,13 +136,13 @@ public class ApplicationTest {
 
         String jobId2 = jobScheduler.schedule(job2);
 
-        assertNotNull(jobId2);
+        assertThat(jobId2).isNotNull();
 
-        assertTrue("Jobs were scheduled into Quartz", getScheduledJobCount() == 2);
+        assertThat(getScheduledJobCount()).as("Jobs were scheduled into Quartz").isEqualTo(2);
 
         jobRemover.removeGroup(jobGroup);
 
-        assertTrue("Jobs were removed from Quartz after execution", getScheduledJobCount() == 0);
+        assertThat(getScheduledJobCount()).as("Jobs were removed from Quartz after execution").isEqualTo(0);
 
         // jobs are /never/ executed
         verify(jobExecutor, after(10000).never()).execute(
@@ -164,7 +163,7 @@ public class ApplicationTest {
     @Test
     public void jobIsScheduledAndThenRemovedById() {
 
-        assertTrue("Job scheduler is empty at start", getScheduledJobCount() == 0);
+        assertThat(getScheduledJobCount()).as("Job scheduler is empty at start").isEqualTo(0);
 
         String jobGroup = "test-job-group";
         String jobName = "test-job-name";
@@ -178,13 +177,13 @@ public class ApplicationTest {
 
         String jobId = jobScheduler.schedule(job);
 
-        assertNotNull(jobId);
+        assertThat(jobId).isNotNull();
 
-        assertTrue("Job was scheduled into Quartz", getScheduledJobCount() == 1);
+        assertThat(getScheduledJobCount()).as("Job was scheduled into Quartz").isEqualTo(1);
 
         jobRemover.remove(jobId, jobGroup);
 
-        assertTrue("Job was removed from Quartz after execution", getScheduledJobCount() == 0);
+        assertThat(getScheduledJobCount()).as("Job was removed from Quartz after execution").isEqualTo(0);
 
         // job is /never/ executed
         verify(jobExecutor, after(10000).never()).execute(

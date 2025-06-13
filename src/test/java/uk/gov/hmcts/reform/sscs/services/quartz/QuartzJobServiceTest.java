@@ -4,15 +4,12 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.JobException;
 import uk.gov.hmcts.reform.sscs.jobscheduler.services.quartz.QuartzJobService;
 
-@RunWith(MockitoJUnitRunner.class)
 public class QuartzJobServiceTest {
 
     private final Scheduler scheduler = mock(Scheduler.class);
